@@ -14,7 +14,7 @@ import { WeatherDataModule } from './weather-data/weather-data.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const isProduction = configService.get('STAGE') === 'prod';
-        console.log(isProduction)
+        console.log(configService.get('STAGE'))
         return {
           ssl: isProduction,
           extra: {
