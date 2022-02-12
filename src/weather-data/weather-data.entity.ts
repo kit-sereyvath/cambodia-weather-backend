@@ -1,37 +1,46 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class WeatherData{
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
+    province: string;
+
+    @Column()
+    date: string;
+
+    @Column()
+    time: string;
+
+    @Column({ nullable: true })
     description: string;
 
-    @Column()
+    @Column({ nullable: true })
     temp: number;
 
-    @Column()
+    @Column({ nullable: true })
     feel_like: number;
 
-    @Column()
+    @Column({ nullable: true })
     min_temp: number;
 
-    @Column()
+    @Column({ nullable: true })
     max_temp: number;
 
-    @Column()
+    @Column({ nullable: true })
     pressure: number;
 
-    @Column()
+    @Column({ nullable: true })
     wind: number;
 
-    @Column()
+    @Column({ nullable: true })
     air_quality: number;
 
-    @Column()
+    @Column({ nullable: true })
     cloud: number;
 
-    @Column()
+    @Column({ nullable: true })
     humidity: number;
 }

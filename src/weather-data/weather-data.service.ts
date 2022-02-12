@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { WeatherDAtaDto } from './weather-data.dto';
 import { WeatherDataModel } from './weather-data.model';
 import { WeatherDataRepository } from './weather-data.repository';
 
@@ -17,5 +18,9 @@ export class WeatherDataService {
             throw new NotFoundException
         }
         return found
+    }
+
+    insertWeatherData(weatherDataDto: WeatherDAtaDto): Promise<WeatherDataModel>{
+        return this.weatherDataRepository.insertWeatherData(weatherDataDto)
     }
 }

@@ -1,5 +1,8 @@
 export class WeatherDataModel{
     id: string;
+    province: string;
+    date: string;
+    time: string;
     description: string;
     temp: number;
     feel_like: number;
