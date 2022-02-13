@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
+import { SearchParams } from './search-param.dto';
 import { WeatherDAtaDto } from './weather-data.dto';
 import { WeatherDataModel } from './weather-data.model';
 import { WeatherDataService } from './weather-data.service';
@@ -8,13 +9,28 @@ export class WeatherDataController {
 
     constructor(private weatherDataService: WeatherDataService){}
 
-    @Get('/:id')
-    async getWeatherDataByID(@Param('id') id: string): Promise<WeatherDataModel>{
-        return await this.weatherDataService.getWeatherDataById(id)
+    // @Get('/:id/')
+    // async getWeatherData(@Param('id') id: string): Promise<WeatherDataModel>{
+    //     return await this.weatherDataService.getWeatherDataById(id)
+    // }
+
+    @Get()
+    async getWeatherData(@Query() searchParams: SearchParams): Promise<WeatherDataModel[]>{
+        return this.weatherDataService.getWeatherData(searchParams);
     }
 
     @Post()
     insertWeatherData(@Body() weatherDataDto: WeatherDAtaDto): Promise<WeatherDataModel>{
         return this.weatherDataService.insertWeatherData(weatherDataDto)
+    }
+
+    @Put()
+    updateWeatherData(@Body() weatherDataDto: WeatherDAtaDto): Promise<string>{
+        return this.weatherDataService.updateWeatherData(weatherDataDto);
+    }
+
+    @Delete()
+    deleteWeatherData(@Query() serachParams: SearchParams): Promise<string>{
+        return this.weatherDataService.deleteWeatherData(serachParams);
     }
 }

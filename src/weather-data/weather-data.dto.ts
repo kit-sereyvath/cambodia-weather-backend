@@ -1,4 +1,5 @@
 export class WeatherDAtaDto{
+    id: string;
     province: string;
     date: string;
     time: string;

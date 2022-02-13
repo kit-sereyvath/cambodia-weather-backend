@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SearchParams } from './search-param.dto';
 import { WeatherDAtaDto } from './weather-data.dto';
 import { WeatherDataModel } from './weather-data.model';
 import { WeatherDataRepository } from './weather-data.repository';
@@ -12,15 +13,19 @@ export class WeatherDataService {
         private weatherDataRepository: WeatherDataRepository
         ){}
 
-    async getWeatherDataById(id: string): Promise<WeatherDataModel>{
-        const found = await this.weatherDataRepository.findOne(id)
-        if(!found){
-            throw new NotFoundException
-        }
-        return found
+    getWeatherData(searhcParams: SearchParams): Promise<WeatherDataModel[]>{
+        return this.weatherDataRepository.getWeatherData(searhcParams);
     }
 
     insertWeatherData(weatherDataDto: WeatherDAtaDto): Promise<WeatherDataModel>{
         return this.weatherDataRepository.insertWeatherData(weatherDataDto)
+    }
+
+    updateWeatherData(weatherDataDto: WeatherDAtaDto): Promise<string>{
+        return this.weatherDataRepository.updateWeatherData(weatherDataDto);
+    }
+
+    deleteWeatherData(searchParams: SearchParams): Promise<string>{
+        return this.weatherDataRepository.deleteWeatherData(searchParams);
     }
 }

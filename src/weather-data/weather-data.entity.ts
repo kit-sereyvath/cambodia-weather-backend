@@ -17,30 +17,30 @@ export class WeatherData{
     @Column({ nullable: true })
     description: string;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     temp: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     feel_like: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     min_temp: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     max_temp: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     pressure: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     wind: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     air_quality: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     cloud: number;
 
-    @Column({ nullable: true })
+    @Column("decimal", { precision: 5, scale: 2, nullable: true })
     humidity: number;
 }
