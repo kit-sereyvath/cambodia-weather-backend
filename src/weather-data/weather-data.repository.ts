@@ -50,7 +50,6 @@ export class WeatherDataRepository extends Repository<WeatherData>{
         const res = new ResponseMessage()
 
         const dweather = await this.findOne({where: {province: province, date: date, time: time}})
-        console.log(dweather)
         if (dweather){
             res.message = "data exist"
             return res
@@ -81,6 +80,7 @@ export class WeatherDataRepository extends Repository<WeatherData>{
 
     async updateWeatherData(weatherDataDto: WeatherDAtaDto): Promise<ResponseMessage>{
         const {id, province, date, time, description, temp, feel_like, min_temp, max_temp, pressure, wind, air_quality, cloud, humidity } = weatherDataDto;
+        console.log(weatherDataDto)
         const res = new ResponseMessage()
         await this.update({id}, {
             province,
