@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ResponseMessage } from 'src/res-message.dto';
 import { UserDto } from './user.dto';
 import { UserRepository } from './user.repository';
 
@@ -10,29 +11,33 @@ export class UserService {
         private userRepository: UserRepository
     ){}
 
-    async authenticateUser(userDto: UserDto): Promise<string>{
+    async authenticateUser(userDto: UserDto): Promise<ResponseMessage>{
         const userfd = await this.userRepository.getUser(userDto)
         //console.log("service  " + !userfd) 
-        if(!userfd){
-            return "no user"
+        const res = new ResponseMessage()
+        if(userfd){
+            if(userfd.username === userDto.username && userfd.password === userDto.password){
+                res.message = "success"
+                return res
+            }
         }
-
-        if(userfd.username === userDto.username && userfd.password === userDto.password){
-            return "success"
-        }
-
-        return "fail"
+        res.message = "fail"
+        return res
     }
 
-    async createUser(userDto: UserDto): Promise<string>{
-        const userfd = await this.userRepository.getUser(userDto) 
+    async createUser(userDto: UserDto): Promise<ResponseMessage>{
+        const userfd = await this.userRepository.getUser(userDto)
+        const res = new ResponseMessage() 
         if(!userfd){
             this.userRepository.createUser(userDto)
             .catch(err => {
-                return "fail"
+                res.message = "fail"
+                return res
             })
-            return "success"
+            res.message = "success"
+            return res
         }
-        return "user exist"
+        res.message = "user exist"
+        return res
     }
 }

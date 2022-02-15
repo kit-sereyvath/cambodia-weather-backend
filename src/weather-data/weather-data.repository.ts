@@ -1,3 +1,4 @@
+import { ResponseMessage } from "src/res-message.dto";
 import { EntityRepository, Repository } from "typeorm";
 import { SearchParams } from "./search-param.dto";
 import { WeatherDAtaDto } from "./weather-data.dto";
@@ -44,8 +45,16 @@ export class WeatherDataRepository extends Repository<WeatherData>{
         return found;
     }
 
-    async insertWeatherData(weatherDataDto: WeatherDAtaDto): Promise<WeatherData>{
+    async insertWeatherData(weatherDataDto: WeatherDAtaDto): Promise<ResponseMessage>{
         const { province, date, time, description, temp, feel_like, min_temp, max_temp, pressure, wind, air_quality, cloud, humidity } = weatherDataDto;
+        const res = new ResponseMessage()
+
+        const dweather = await this.findOne({where: {province: province, date: date, time: time}})
+        console.log(dweather)
+        if (dweather){
+            res.message = "data exist"
+            return res
+        }
         const weatherData = this.create({
             province,
             date, 
@@ -61,13 +70,18 @@ export class WeatherDataRepository extends Repository<WeatherData>{
             cloud, 
             humidity
         });
-        await this.save(weatherData);
+        await this.save(weatherData).catch(err => {
+            res.message = 'fail'
+            return res
+        });
     
-        return weatherData;
+        res.message = "success"
+        return res;
     }
 
-    async updateWeatherData(weatherDataDto: WeatherDAtaDto): Promise<string>{
+    async updateWeatherData(weatherDataDto: WeatherDAtaDto): Promise<ResponseMessage>{
         const {id, province, date, time, description, temp, feel_like, min_temp, max_temp, pressure, wind, air_quality, cloud, humidity } = weatherDataDto;
+        const res = new ResponseMessage()
         await this.update({id}, {
             province,
             date,
@@ -83,56 +97,68 @@ export class WeatherDataRepository extends Repository<WeatherData>{
             cloud,
             humidity,
         }).catch((err) => {
-            return "fail";
+            res.message = "fail"
+            return res;
         })
     
-        return "success";
+        res.message = "success"
+        return res;
     }
 
-    async deleteWeatherData(searchParams: SearchParams): Promise<string>{
+    async deleteWeatherData(searchParams: SearchParams): Promise<ResponseMessage>{
         const {province, date, time} = searchParams
+        const res = new ResponseMessage()
         if (province != "" && date != "" && time != ""){
             await this.delete({province, date, time })
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else if (province != "" && date != "" && time == ""){
             await this.delete({province, date})
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else if (province != "" && date == "" && time != ""){
             await this.delete({province, time })
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else if (province != "" && date == "" && time == ""){
             await this.delete({province })
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else if (province == "" && date != "" && time != ""){
             await this.delete({ date, time })
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else if (province == "" && date != "" && time == ""){
             await this.delete({ date})
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else if (province == "" && date == "" && time != ""){
             await this.delete({time })
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         } else {
             await this.delete({})
             .catch((err) => {
-                return "fail";
+                res.message = "fail"
+                return res;
             })
         }
         
-        return "success";
+        res.message = "success"
+        return res
     }
 }

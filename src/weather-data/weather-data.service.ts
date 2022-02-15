@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ResponseMessage } from 'src/res-message.dto';
 import { SearchParams } from './search-param.dto';
 import { WeatherDAtaDto } from './weather-data.dto';
 import { WeatherDataModel } from './weather-data.model';
@@ -17,15 +18,15 @@ export class WeatherDataService {
         return this.weatherDataRepository.getWeatherData(searhcParams);
     }
 
-    insertWeatherData(weatherDataDto: WeatherDAtaDto): Promise<WeatherDataModel>{
+    insertWeatherData(weatherDataDto: WeatherDAtaDto): Promise<ResponseMessage>{
         return this.weatherDataRepository.insertWeatherData(weatherDataDto)
     }
 
-    updateWeatherData(weatherDataDto: WeatherDAtaDto): Promise<string>{
+    updateWeatherData(weatherDataDto: WeatherDAtaDto): Promise<ResponseMessage>{
         return this.weatherDataRepository.updateWeatherData(weatherDataDto);
     }
 
-    deleteWeatherData(searchParams: SearchParams): Promise<string>{
+    deleteWeatherData(searchParams: SearchParams): Promise<ResponseMessage>{
         return this.weatherDataRepository.deleteWeatherData(searchParams);
     }
 }
